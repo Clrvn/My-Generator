@@ -3,23 +3,23 @@ package ${package}.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
-import lombok.Getter;
-import lombok.Setter;
+
+import lombok.Data;
 
 /**
  * ${comments}
  *
  * @author ${author}
- * @email ${email}
- * @date ${datetime}
  */
-@Getter
-@Setter
-public class ${className} implements Serializable {
-	private static final long serialVersionUID = 1L;
+@Data
+public class ${className} implements Serializable{
+private static final long serialVersionUID = 1L;
 
 #foreach ($column in $columns)
-	private $column.attrType $column.attrname;	// $column.comments
+/**
+ * $column.comments
+ */
+private $column.attrType $column.attrname;
 
 #end
 

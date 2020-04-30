@@ -1,5 +1,3 @@
-package generatro;
-
 /**
  * @author Clrvn
  * @description 应用入口类

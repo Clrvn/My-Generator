@@ -800,6 +800,7 @@ public class StringUtil {
     public static String snakeToHump(String str) {
         str = str.toLowerCase();
         Matcher matcher = Pattern.compile("_(\\w)").matcher(str);
+
         StringBuffer sb = new StringBuffer();
         while (matcher.find()) {
             matcher.appendReplacement(sb, matcher.group(1).toUpperCase());

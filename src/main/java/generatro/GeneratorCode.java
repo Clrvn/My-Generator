@@ -1,6 +1,4 @@
 package generatro;
-
-
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -23,10 +21,11 @@ import java.util.*;
  * @date 2018/9/6 23:01
  * @lastModifier
  */
+@SuppressWarnings("all")
 public class GeneratorCode {
 
     //项目在硬盘上的基础路径
-    private static String PROJECT_PATH = System.getProperty("user.dir");
+    private static final String PROJECT_PATH = System.getProperty("user.dir");
     //自动去除表前缀
     public static String AUTO_REMOVE_PRE = "true";
     //JDBC配置，请修改为你项目的实际配置
@@ -261,8 +260,8 @@ public class GeneratorCode {
         Statement stmt = conn.createStatement(); //创建Statement对象
         System.out.println("成功连接到数据库！");
 
-        //查询数据的代码
-        String sql = "select table_name tableName, engine, table_comment tableComment, create_time createTime from information_schema.tables where table_name = \'" + tableName + "\' and table_schema = (select database())";    //要执行的SQL
+        //查询数据的代码 要执行的SQL
+        String sql = "select table_name tableName, engine, table_comment tableComment, create_time createTime from information_schema.tables where table_name = \'" + tableName + "\' and table_schema = (select database())";
         ResultSet rs = stmt.executeQuery(sql);//创建数据对象
 
         while (rs.next()) {

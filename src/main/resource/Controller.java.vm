@@ -1,161 +1,80 @@
 package ${package}.controller;
 
-import cms.lrkj.annotation.Log;
-import cms.lrkj.constant.SysConstant;
-import ${package}.core.*;
+import com.github.pagehelper.PageInfo;
 import ${package}.model.${className};
 import ${package}.service.${className}Service;
-import cms.lrkj.core.ApiResult;
-import cms.lrkj.exception.GlobalException;
-import cms.lrkj.utils.StringUtil;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.TypeReference;
+import com.utils.RequestParamsUtil;
+import com.utils.ResultVOUtil;
+import com.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.stereotype.Controller;
-import org.springframework.context.annotation.Scope;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
-import java.util.Map;
-
-import static org.springframework.beans.factory.config.BeanDefinition.SCOPE_PROTOTYPE;
+import org.springframework.web.bind.annotation.*;
 
 /**
- * ${comments}
+ * ${comments}Controller
  *
  * @author ${author}
- * @email ${email}
  * @date ${datetime}
  */
-
 @RestController
-@RequestMapping("/${platformUrl}")
-@Scope(SCOPE_PROTOTYPE)
-public class ${platFormUrl}${className}Controller extends AbstractBaseController {
+@RequestMapping("/${classname}")
+public class QuarterPlanController {
 
     @Autowired
     private ${className}Service ${classname}Service;
 
     /**
-     * 列表
+     * 查询${comments}页面
+     * @return 分页${comments}数据
      */
-    @RequestMapping("/${classname}/list.do")
-#if (${platformUrl} == "admin")
-    @Log("${platformUrl}/${classname}:列表")
-#end
-    public ApiResponse list(ApiRequest apiRequest) {
-        Map param = getReqMap(apiRequest);
-        int page = getPage(param);
-        int pageSize = getPageSize(param);
-
-        RespPageInfo pageInfo = ${classname}Service.pageList(param, page, pageSize);
-
-        return ApiResponse.getDefaultResponse(pageInfo);
+    @GetMapping("/page")
+    public PageInfo<QuarterPlan> page() {
+        return ${classname}Service.page(new RequestParamsUtil().getParameters());
     }
 
     /**
-     * 保存
+     * 查询${comments}列表
      */
-    @RequestMapping("/${classname}/save.do")
-#if (${platformUrl} == "admin")
-    @Log("${platformUrl}/${classname}:保存")
-#end
-    public ApiResponse save(ApiRequest apiRequest) {
-        ${className} ${classname} =JSON.parseObject(apiRequest.getData(), ${className}.class);
-
-        int flag = ${classname}Service.save(${classname});
-        if (flag <= 0) {
-            throw new GlobalException(ApiResult.FAILURE_UPDATE);
-        }
-
-        return ApiResponse.getDefaultResponse();
+    @GetMapping("/list")
+    public ResultVO list() {
+        ${className} ${classname}List = ${classname}Service.list(new RequestParamsUtil().getParameters());
+        return ResultVOUtil.success(${classname}List);
     }
 
     /**
-     * 修改
+     * 通过${pk.columnName}查询单个${comments}
      */
-    @RequestMapping("/${classname}/update.do")
-#if (${platformUrl} == "admin")
-    @Log("${platformUrl}/${classname}:修改")
-#end
-    public ApiResponse update(ApiRequest apiRequest) {
-        ${className} ${classname} =JSON.parseObject(apiRequest.getData(), ${className}.class);
-
-        int flag = ${classname}Service.update(${classname});
-        if (flag <= 0) {
-            throw new GlobalException(ApiResult.FAILURE_UPDATE);
-        }
-
-        return ApiResponse.getDefaultResponse();
+    @GetMapping("/getById")
+    public ResultVO getById(@RequestParam(value = "${pk.columnName}") ${pk.attrType} ${pk.columnName}) {
+        ${className} ${classname} =${classname}Service.getById(${pk.columnName});
+        return ResultVOUtil.success(${classname});
     }
 
     /**
-     * 详情
+     * 添加${comments}
      */
-    @RequestMapping("/${classname}/detail.do")
-#if (${platformUrl} == "admin")
-    @Log("${platformUrl}/${classname}:详情")
-#end
-    public ApiResponse detail(ApiRequest apiRequest) {
-        Map param = getReqMap(apiRequest);
-        Long id = getMapLong(param.get("id"));
-
-        if (id <= 0) {
-            throw new GlobalException(ApiResult.PARAM_ERROR);
-        }
-
-        ${className} ${classname} = ${classname}Service.findById(id);
-
-        return ApiResponse.getDefaultResponse(${classname});
+    @PostMapping("/save")
+    public ResultVO save(@RequestBody ${className} ${classname}) {
+        ${classname}Service.save(${classname});
+        return ResultVOUtil.success();
     }
 
     /**
-     * 删除
+     * 修改${comments}
      */
-    @RequestMapping("/${classname}/delete.do")
-#if (${platformUrl} == "admin")
-    @Log("${platformUrl}/${classname}:删除")
-#end
-    public ApiResponse delete(ApiRequest apiRequest) {
-        Map param = getReqMap(apiRequest);
-        Long id = getMapLong(param.get("id"));
-
-        if (id <= 0) {
-            throw new GlobalException(ApiResult.PARAM_ERROR);
-        }
-
-        int flag = ${classname}Service.delete(id);
-        if (flag <= 0) {
-            throw new GlobalException(ApiResult.FAILURE_UPDATE);
-        }
-
-        return ApiResponse.getDefaultResponse();
+    @PutMapping("/update")
+    public ResultVO update(@RequestBody ${className} ${classname}) {
+        ${classname}Service.updatePlan(${classname});
+        return ResultVOUtil.success();
     }
 
     /**
-     * 批量删除
+     * 删除${comments}
      */
-    @RequestMapping("/${classname}/batchDelete.do")
-#if (${platformUrl} == "admin")
-    @Log("${platformUrl}/${classname}:批量删除")
-#end
-    public ApiResponse batchDelete(ApiRequest apiRequest) {
-        Map param = getReqMap(apiRequest);
-        String idsStr = getMapString(param, "ids");
+    @DeleteMapping("/deleteById")
+    public ResultVO deleteById(@RequestParam(value = "${pk.columnName}") ${pk.attrType}  ${pk.columnName}) {
+        ${classname}Service.deleteById(${pk.columnName});
+        return ResultVOUtil.success();
 
-        if (StringUtil.isEmpty(idsStr)) {
-            throw new GlobalException(ApiResult.PARAM_ERROR);
-        }
-
-        String[] ids = idsStr.split(",");
-        int flag = ${classname}Service.batchDelete(${pk.attrname}s);
-        if (flag <= 0) {
-            throw new GlobalException(ApiResult.FAILURE_UPDATE);
-        }
-
-        return ApiResponse.getDefaultResponse();
     }
 
 }

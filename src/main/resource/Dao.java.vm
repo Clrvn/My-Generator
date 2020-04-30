@@ -7,12 +7,11 @@ import java.util.Map;
 
 
 /**
- * ${comments}
+ * ${comments}DAO
  * @author ${author}
- * @email ${email}
  * @date ${datetime}
  */
-public interface ${className}Mapper {
+public interface ${className}Dao {
 
     ${className} findById(${pk.attrType} ${pk.attrname});
 
@@ -24,7 +23,6 @@ public interface ${className}Mapper {
 
     int update(${className} ${classname});
 
-    int delete(${pk.attrType} ${pk.columnName});
-
+    int deleteById(${pk.attrType} ${pk.columnName});
 
 }

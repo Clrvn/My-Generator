@@ -33,7 +33,7 @@ public class GenUtils {
         templates.add("generator/Mapper.xml.vm");
         templates.add("generator/Service.java.vm");
         templates.add("generator/ServiceImpl.java.vm");
-        templates.add("generator/Controller.java.vm");
+        templates.add("generator/OldController.java.vm");
         templates.add("generator/list.html.vm");
         templates.add("generator/add.html.vm");
         templates.add("generator/edit.html.vm");

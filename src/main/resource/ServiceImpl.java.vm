@@ -6,44 +6,56 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-import ${package}.dao.${className}Mapper;
+import ${package}.dao.${className}Dao;
 import ${package}.model.${className};
 import ${package}.service.${className}Service;
 
+/**
+ * ${comments}ServiceImpl
+ *
+ * @author ${author}
+ * @date ${datetime}
+ */
 @Service
 public class ${className}ServiceImpl implements ${className}Service {
+
     @Autowired
-    private ${className}Mapper ${classname}Mapper;
+    private ${className}Dao ${classname}Dao;
+
+    @Override
+    public PageInfo<${className}> getPage(Integer pageNum, Integer pageSize){
+        PageHelper.startPage(pageNum, pageSize);
+        return new PageInfo<>(${classname}Dao.list(null));
+    }
 
     @Override
     public ${className} findById(${pk.attrType} ${pk.attrname}) {
-        return ${classname}Mapper.findById(${pk.attrname});
+        return ${classname}Dao.findById(${pk.attrname});
     }
 
     @Override
     public ${className} findByMap(Map<String, Object> map) {
-        return ${classname}Mapper.findByMap(map);
+        return ${classname}Dao.findByMap(map);
     }
 
     @Override
     public List<${className}> list(Map<String, Object> map) {
-        return ${classname}Mapper.list(map);
+        return ${classname}Dao.list(map);
     }
-
 
     @Override
     public int save(${className} ${classname}) {
-        return ${classname}Mapper.save(${classname});
+        return ${classname}Dao.save(${classname});
     }
 
     @Override
     public int update(${className} ${classname}) {
-        return ${classname}Mapper.update(${classname});
+        return ${classname}Dao.update(${classname});
     }
 
     @Override
-    public int delete(${pk.attrType} ${pk.attrname}) {
-        return ${classname}Mapper.delete(${pk.attrname});
+    public int deleteById(${pk.attrType} ${pk.attrname}) {
+        return ${classname}Dao.deleteById(${pk.attrname});
     }
 
 

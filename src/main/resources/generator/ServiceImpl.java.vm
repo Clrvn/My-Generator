@@ -1,14 +1,18 @@
 package ${package}.service.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import ${package}.model.${className};
+import ${package}.service.${className}Service;
+import ${package}.dao.${className}Dao;
+import com.utils.RequestParamsUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
 
-import ${package}.dao.${className}Dao;
-import ${package}.model.${className};
-import ${package}.service.${className}Service;
+
 
 /**
  * ${comments}ServiceImpl
@@ -22,42 +26,64 @@ public class ${className}ServiceImpl implements ${className}Service {
     @Autowired
     private ${className}Dao ${classname}Dao;
 
+    /**
+     * 查询${comments}页面
+     * @return 分页${comments}数据
+     */
     @Override
-    public PageInfo<${className}> getPage(Integer pageNum, Integer pageSize){
-        PageHelper.startPage(pageNum, pageSize);
-        return new PageInfo<>(${classname}Dao.list(null));
+    public PageInfo<${className}> page(RequestParamsUtil requestParamsUtil) {
+        PageHelper.startPage(requestParamsUtil.getPageNo(), requestParamsUtil.getPageSize());
+        return new PageInfo<>(${classname}Dao.list(requestParamsUtil.getParameters()));
     }
 
-    @Override
-    public ${className} findById(${pk.attrType} ${pk.attrname}) {
-        return ${classname}Dao.findById(${pk.attrname});
-    }
-
-    @Override
-    public ${className} findByMap(Map<String, Object> map) {
-        return ${classname}Dao.findByMap(map);
-    }
-
+    /**
+     * 查询${comments}列表
+     */
     @Override
     public List<${className}> list(Map<String, Object> map) {
         return ${classname}Dao.list(map);
     }
 
+
+    /**
+     * 通过${pk.columnName}查询单个${comments}
+     */
+    @Override
+    public ${className} findById(${pk.attrType} ${pk.attrname}) {
+        return ${classname}Dao.findById(${pk.attrname});
+    }
+
+    /**
+     * 通过map查询单个${comments}
+     */
+    @Override
+    public ${className} findByMap(Map<String, Object> map) {
+        return ${classname}Dao.findByMap(map);
+    }
+
+    /**
+     * 新增${comments}
+     */
     @Override
     public int save(${className} ${classname}) {
         return ${classname}Dao.save(${classname});
     }
 
+    /**
+     * 修改${comments}
+     */
     @Override
     public int update(${className} ${classname}) {
         return ${classname}Dao.update(${classname});
     }
 
+    /**
+     * 删除${comments}
+     */
     @Override
     public int deleteById(${pk.attrType} ${pk.attrname}) {
         return ${classname}Dao.deleteById(${pk.attrname});
     }
-
 
 
 }

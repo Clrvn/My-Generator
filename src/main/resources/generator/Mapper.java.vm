@@ -17,7 +17,6 @@ import org.apache.ibatis.annotations.Update;
  * @email ${email}
  * @date ${datetime}
  */
-
 public interface ${className}Mapper {
 
 	@Select("select #foreach($column in $columns)

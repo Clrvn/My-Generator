@@ -29,10 +29,10 @@ public class GeneratorCode {
     //自动去除表前缀
     public static String AUTO_REMOVE_PRE = "true";
     //JDBC配置，请修改为你项目的实际配置
-    private static final String JDBC_DATABASE = "lost";
-    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/" + JDBC_DATABASE;
+    private static final String JDBC_DATABASE = "homemaking";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/" + JDBC_DATABASE + "?serverTimezone=Asia/Shanghai";
     private static final String JDBC_USERNAME = "root";
-    private static final String JDBC_PASSWORD = "852456130";
+    private static final String JDBC_PASSWORD = "root";
     //    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/" + JDBC_DATABASE;
 //    private static final String JDBC_USERNAME = "root";
 //    private static final String JDBC_PASSWORD = "root";
@@ -40,15 +40,107 @@ public class GeneratorCode {
 
 
     public static void main(String[] args) throws Exception {
-        genCodeByTableNames("admin", "apply_record");
+        genCodeByTableNames("admin", "user");
     }
 
     public static void genCodeByTableNames(String platformUrl, String... tableNames) throws Exception {
         for (String tableName : tableNames) {
             //根据需求生成，不需要的注掉，模板有问题的话可以自己修改。
             genModelAndMapper(platformUrl, tableName); // 生成model和mapper
-//            genService(platformUrl, tableName); // 生成service
-//            genController(platformUrl, tableName); // 生成controller
+            genService(platformUrl, tableName); // 生成service
+            genController(platformUrl, tableName); // 生成controller
+        }
+    }
+
+    public static void genController(String platformUrl, String tableName) throws Exception {
+        List<String> templates = new ArrayList<>();
+        templates.add("generator/Controller.java.vm");
+        //配置信息
+        Configuration config = getConfig();
+        //表信息
+        TableDO tableDO = new TableDO();
+        Map table = getTable(tableName);
+        tableDO.setTableName(tableName);
+        tableDO.setComments((String) table.get("tableComment"));
+        //表名转换成Java类名
+        String className = tableName;
+        tableDO.setClassName(StringUtil.snakeToCapHump(className));
+        tableDO.setClassname(StringUtils.uncapitalize(StringUtil.snakeToCapHump(className)));
+
+        //列信息
+        List<Map<String, String>> columns = getColumnsByTableName(tableName);
+        List<ColumnDO> columnsList = new ArrayList<>();
+        for (Map<String, String> column : columns) {
+            ColumnDO columnDO = new ColumnDO();
+            columnDO.setColumnName(column.get("columnName"));
+            columnDO.setDataType(column.get("dataType"));
+            columnDO.setComments(column.get("columnComment"));
+            columnDO.setExtra(column.get("extra"));
+
+            //列名转换成Java属性名
+            String attrName = StringUtil.snakeToCapHump(columnDO.getColumnName());
+            // String attrName = columnDO.getColumnName();
+            columnDO.setAttrName(attrName);
+            columnDO.setAttrname(StringUtils.uncapitalize(attrName));
+
+            //列的数据类型，转换成Java类型
+            String attrType = config.getString(columnDO.getDataType(), "unknowType");
+            columnDO.setAttrType(attrType);
+
+            //是否主键
+            if ("PRI".equalsIgnoreCase(column.get("columnKey")) && tableDO.getPk() == null) {
+                tableDO.setPk(columnDO);
+            }
+
+            columnsList.add(columnDO);
+        }
+        tableDO.setColumns(columnsList);
+
+        //没主键，则第一个字段为主键
+        if (tableDO.getPk() == null) {
+            tableDO.setPk(tableDO.getColumns().get(0));
+        }
+
+        //设置velocity资源加载器
+        Properties prop = new Properties();
+        prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        Velocity.init(prop);
+
+        //封装模板数据
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("tableName", tableDO.getTableName());
+        map.put("comments", tableDO.getComments());
+        map.put("pk", tableDO.getPk());
+        map.put("className", tableDO.getClassName());
+        map.put("classname", tableDO.getClassname());
+        map.put("pathName", config.getString("package").substring(config.getString("package").lastIndexOf(".") + 1));
+        map.put("columns", tableDO.getColumns());
+        map.put("package", config.getString("package"));
+        map.put("author", config.getString("author"));
+        map.put("email", config.getString("email"));
+        map.put("platformUrl", platformUrl);
+        map.put("platFormUrl", columnToJava(platformUrl));
+        map.put("datetime", DateUtils.format(new java.util.Date(), DateUtils.DATE_TIME_PATTERN));
+        VelocityContext context = new VelocityContext(map);
+
+        //渲染模板
+        for (String template : templates) {
+            StringWriter sw = new StringWriter();
+            Template tpl = Velocity.getTemplate(template, "UTF-8");
+            tpl.merge(context, sw);
+            // System.out.println(sw.toString());
+
+            String fileName = getFileName(template, tableDO.getClassname(), tableDO.getClassName(), config.getString("package"), platformUrl);
+
+            File file = new File(fileName);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            Files.write(Paths.get(fileName), sw.toString().getBytes());
+
+            System.out.println(
+                    tableDO.getTableName() + "Controller.java 生成成功\r\n" + tableDO.getTableName() + "Controller.java 生成成功"
+            );
         }
     }
 
@@ -397,32 +489,33 @@ public class GeneratorCode {
 
         String packagePath = PROJECT_PATH + File.separator;
 
-        if (template.contains("domain.java.vm")) {
+        if (template.contains("generator/domain.java.vm")) {
             packagePath += "src/main/java" + File.separator + packageName.replace(".", File.separator) + File.separator;
             return packagePath + "model" + File.separator + className + ".java";
         }
 
-        if (template.contains("Dao.java.vm")) {
+        if (template.contains("generator/Dao.java.vm")) {
             packagePath = "src/main/java" + File.separator + packageName.replace(".", File.separator) + File.separator;
-            return packagePath + "dao" + File.separator + className + "Mapper.java";
+            return packagePath + "dao" + File.separator + className + "Dao.java";
         }
 
-        if (template.contains("Service.java.vm")) {
+        if (template.contains("generator/Service.java.vm")) {
             packagePath += "src/main/java" + File.separator + packageName.replace(".", File.separator) + File.separator;
             return packagePath + "service" + File.separator + className + "Service.java";
         }
 
-        if (template.contains("ServiceImpl.java.vm")) {
+        if (template.contains("generator/ServiceImpl.java.vm")) {
             packagePath += "src/main/java" + File.separator + packageName.replace(".", File.separator) + File.separator;
             return packagePath + "service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
         }
 
-        if (template.contains("Controller.java.vm")) {
+        if (template.contains("generator/Controller.java.vm")) {
             packagePath +=  "src/main/java" + File.separator + packageName.replace(".", File.separator) + File.separator;
-            return packagePath + File.separator + "controller" + File.separator + columnToJava(platformUrl) + className + "Controller.java";
+//            return packagePath + File.separator + "controller" + File.separator + columnToJava(platformUrl) + className + "Controller.java";
+            return packagePath + File.separator + "controller" + File.separator + className + "Controller.java";
         }
 
-        if (template.contains("Mapper.xml.vm")) {
+        if (template.contains("generator/Mapper.xml.vm")) {
             packagePath += "src/main/";
             return packagePath + File.separator + "resources" + File.separator + "mapper" + File.separator + className + "Mapper.xml";
         }

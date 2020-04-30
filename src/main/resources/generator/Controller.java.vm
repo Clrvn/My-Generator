@@ -9,6 +9,8 @@ import com.vo.ResultVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 /**
  * ${comments}Controller
  *
@@ -17,7 +19,7 @@ import org.springframework.web.bind.annotation.*;
  */
 @RestController
 @RequestMapping("/${classname}")
-public class QuarterPlanController {
+public class ${className}Controller {
 
     @Autowired
     private ${className}Service ${classname}Service;
@@ -27,8 +29,8 @@ public class QuarterPlanController {
      * @return 分页${comments}数据
      */
     @GetMapping("/page")
-    public PageInfo<QuarterPlan> page() {
-        return ${classname}Service.page(new RequestParamsUtil().getParameters());
+    public PageInfo<${className}> page() {
+        return ${classname}Service.page(new RequestParamsUtil());
     }
 
     /**
@@ -36,16 +38,25 @@ public class QuarterPlanController {
      */
     @GetMapping("/list")
     public ResultVO list() {
-        ${className} ${classname}List = ${classname}Service.list(new RequestParamsUtil().getParameters());
+        List<${className}> ${classname}List = ${classname}Service.list(new RequestParamsUtil().getParameters());
         return ResultVOUtil.success(${classname}List);
     }
 
     /**
      * 通过${pk.columnName}查询单个${comments}
      */
-    @GetMapping("/getById")
-    public ResultVO getById(@RequestParam(value = "${pk.columnName}") ${pk.attrType} ${pk.columnName}) {
-        ${className} ${classname} =${classname}Service.getById(${pk.columnName});
+    @GetMapping("/findById")
+    public ResultVO findById(@RequestParam(value = "${pk.columnName}") ${pk.attrType} ${pk.columnName}) {
+        ${className} ${classname} =${classname}Service.findById(${pk.columnName});
+        return ResultVOUtil.success(${classname});
+    }
+
+    /**
+     * 通过map查询单个${comments}
+     */
+    @GetMapping("/findByMap")
+    public ResultVO findByMap() {
+        ${className} ${classname} =${classname}Service.findByMap(new RequestParamsUtil().getParameters());
         return ResultVOUtil.success(${classname});
     }
 
@@ -63,7 +74,7 @@ public class QuarterPlanController {
      */
     @PutMapping("/update")
     public ResultVO update(@RequestBody ${className} ${classname}) {
-        ${classname}Service.updatePlan(${classname});
+        ${classname}Service.update(${classname});
         return ResultVOUtil.success();
     }
 

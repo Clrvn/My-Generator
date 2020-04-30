@@ -1,6 +1,7 @@
 package ${package}.service;
 
 import ${package}.model.${className};
+import com.github.pagehelper.PageInfo;
 import ${package}.utils.RequestParamsUtil;
 
 import java.util.List;
@@ -18,18 +19,36 @@ public interface ${className}Service {
 	 * 查询${comments}页面
 	 * @return 分页${comments}数据
 	 */
-	PageInfo<${className}> getPage(Map<String, Object> map);
+	PageInfo<${className}> page(RequestParamsUtil requestParamsUtil);
 
+	/**
+	 * 查询${comments}列表
+	 */
 	List<${className}> list(Map<String, Object> map);
 
+	/**
+	 * 通过${pk.columnName}查询单个${comments}
+	 */
     ${className} findById(${pk.attrType} ${pk.attrname});
 
+	/**
+	 * 通过map查询单个${comments}
+	 */
 	${className} findByMap(Map<String, Object> map);
 
+	/**
+	 * 新增${comments}
+	 */
 	int save(${className} ${classname});
-	
+
+	/**
+	 * 修改${comments}
+	 */
 	int update(${className} ${classname});
 
+	/**
+	 * 删除${comments}
+	 */
 	int deleteById(${pk.attrType} ${pk.attrname});
 
 }

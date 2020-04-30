@@ -18,15 +18,17 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
- * 代码生成器   工具类
+ * @author Clrvn
+ * @description 我的自动生成代码工具类
+ * @date 2020/5/1 0001 0:40
  */
-public class GenUtils {
+public class MyGeneratorUtil {
 
     //自动去除表前缀
     public static String AUTO_REOMVE_PRE = "true";
 
     public static List<String> getTemplates() {
-        List<String> templates = new ArrayList<String>();
+        List<String> templates = new ArrayList<>();
         templates.add("generator/domain.java.vm");
         templates.add("generator/Dao.java.vm");
         //templates.add("com.lrkj.generator/Mapper.java.vm");
@@ -34,12 +36,12 @@ public class GenUtils {
         templates.add("generator/Service.java.vm");
         templates.add("generator/ServiceImpl.java.vm");
         templates.add("generator/Controller.java.vm");
-        templates.add("generator/list.html.vm");
-        templates.add("generator/add.html.vm");
-        templates.add("generator/edit.html.vm");
-        templates.add("generator/list.js.vm");
-        templates.add("generator/add.js.vm");
-        templates.add("generator/edit.js.vm");
+//        templates.add("generator/list.html.vm");
+//        templates.add("generator/add.html.vm");
+//        templates.add("generator/edit.html.vm");
+//        templates.add("generator/list.js.vm");
+//        templates.add("generator/add.js.vm");
+//        templates.add("generator/edit.js.vm");
         //templates.add("com.lrkj.generator/menu.sql.vm");
         return templates;
     }
@@ -182,7 +184,7 @@ public class GenUtils {
         }
 
         if (template.contains("generator/domain.java.vm")) {
-            return packagePath + "domain" + File.separator + className + "DO.java";
+            return packagePath + "domain" + File.separator + className + ".java";
         }
 
         if (template.contains("generator/Dao.java.vm")) {

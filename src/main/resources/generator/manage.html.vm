@@ -171,6 +171,14 @@
             edit${className}: function (edit${className}Id) {
                 //把要修改的edit${className}Id存到sessionStorage中
                 sessionStorage.setItem("edit${className}Id", edit${className}Id);
+            },
+            /**
+             *
+             * ${comments}详情
+             */
+            view${className}: function (edit${className}Id) {
+                //把要修改的view${className}Id存到sessionStorage中
+                sessionStorage.setItem("view${className}Id", view${className}Id);
             }
         },
         created: function () {

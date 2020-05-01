@@ -1,4 +1,5 @@
 package generatro;
+
 import org.apache.commons.configuration.Configuration;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
@@ -26,8 +27,6 @@ public class GeneratorCode {
 
     //项目在硬盘上的基础路径
     private static final String PROJECT_PATH = System.getProperty("user.dir");
-    //自动去除表前缀
-    public static String AUTO_REMOVE_PRE = "true";
     //JDBC配置，请修改为你项目的实际配置
     private static final String JDBC_DATABASE = "homemaking";
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/" + JDBC_DATABASE + "?serverTimezone=Asia/Shanghai";
@@ -37,7 +36,8 @@ public class GeneratorCode {
 //    private static final String JDBC_USERNAME = "root";
 //    private static final String JDBC_PASSWORD = "root";
     private static final String JDBC_DIVER_CLASS_NAME = "com.mysql.cj.jdbc.Driver";
-
+    //自动去除表前缀
+    public static String AUTO_REMOVE_PRE = "true";
 
     public static void main(String[] args) throws Exception {
         genCodeByTableNames("admin", "user");
@@ -606,7 +606,7 @@ public class GeneratorCode {
         }
 
         if (template.contains("generator/Controller.java.vm")) {
-            packagePath +=  "src/main/java" + File.separator + packageName.replace(".", File.separator) + File.separator;
+            packagePath += "src/main/java" + File.separator + packageName.replace(".", File.separator) + File.separator;
 //            return packagePath + File.separator + "controller" + File.separator + columnToJava(platformUrl) + className + "Controller.java";
             return packagePath + File.separator + "controller" + File.separator + className + "Controller.java";
         }

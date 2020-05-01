@@ -15,7 +15,7 @@ server:
 # mybatis
 mybatis:
   mapper-locations: classpath:/mapping/*.xml
-  type-aliases-package: com.pojo, com.vo
+  type-aliases-package: com.model, com.vo
   configuration:
     #把下划线转为驼峰
     map-underscore-to-camel-case: true

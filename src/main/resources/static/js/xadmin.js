@@ -71,7 +71,7 @@
      * @param  {[type]}  h     [高]
      * @return {[type]}        [description]
      */
-    Xadmin.prototype.open = function (title, url, w, h) {
+    Xadmin.prototype.open = function (title, url, w, h, full) {
         if (title == null || title == '') {
             var title = false;
         }
@@ -84,6 +84,7 @@
         if (h == null || h == '') {
             var h = ($(window).height() - 50);
         }
+
         var index = layer.open({
             type: 2,
             area: [w + 'px', h + 'px'],

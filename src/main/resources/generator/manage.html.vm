@@ -26,46 +26,51 @@
 </div>
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12" id="vmCustomer">
+        <div class="layui-col-md12" id="vm${className}">
             <div class="layui-card">
 
                 <div class="layui-card-header">
-                    <button class="layui-btn" onclick="xadmin.open('客户信息录入','/customerAdd',500,400)">
-                        <i class="layui-icon"></i>客户信息录入
+                    <button class="layui-btn" onclick="xadmin.open('添加${comments}','/${classname}Add',500,400)">
+                        <i class="layui-icon"></i>添加${comments}
                     </button>
                 </div>
                 <div class="layui-card-body">
                     <table class="layui-table layui-form">
                         <thead>
                         <tr>
-                            <th>公司名称</th>
-                            <th>负责人</th>
-                            <th>联系人</th>
-                            <th>电话</th>
-                            <th>公司地址</th>
+                            <th>序号</th>
+                    #foreach($column in $columns)
+                        #if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
+                            <th>$column.comments</th>
+                        #end
+                    #end
                             <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="customer,i in pageInfo.list">
+                        <tr v-for="${classname},i in pageInfo.list">
                             <td v-text="i+1"></td>
-                            <td v-text="customer.companyName"></td>
-                            <td v-text="customer.man"></td>
-                            <td v-text="customer.phone"></td>
-                            <td v-text="customer.address"></td>
+                        #foreach($column in $columns)
+                            #if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
+                            <td v-text="${classname}.$column.attrname"></td>
+                            #end
+                        #end
                             <td class="td-manage">
-                                <button @click="updateCustomer(customer.id)" class="layui-btn layui-btn-warm"
-                                        id="editCustomer" onclick="xadmin.open('编辑客户','/customerUpdate',600,450)">
+                                <button @click="edit${className}(${classname}.${pk.columnName})"
+                                        class="layui-btn layui-btn-warm"
+                                        id="edit${className}"
+                                        onclick="xadmin.open('编辑${comments}','/${classname}Edit',600,450)">
                                     <i class="layui-icon">&#xe631;</i>编辑
                                 </button>
-                                <button @click="removeCustomer(customer.id)" class="layui-btn layui-btn-danger"
-                                        id="delCustomer">
+                                <button @click="del${className}(${classname}.${pk.columnName})"
+                                        class="layui-btn layui-btn-danger"
+                                        id="del${className}">
                                     <i class="layui-icon">&#xe640;</i>删除
                                 </button>
                             </td>
                         </tr>
                         <tr v-if="pageInfo.total == 0">
-                            <td colspan="6" style="text-align: center">暂无客户信息！</td>
+                            <td colspan="100" style="text-align: center">暂无${comments}信息！</td>
                         </tr>
                         </tbody>
                     </table>
@@ -103,14 +108,14 @@
     });
 
     vm = new Vue({
-        el: "#vmCustomer",
+        el: "#vm${className}",
         data: {
             pageInfo: {}
         },
         methods: {
             getPage: function (pageNum, pageSize) {
                 var _this = this;
-                var url = "/customer/page?pageNum=" + pageNum;
+                var url = "/${classname}/page?pageNum=" + pageNum;
 
                 if (!pageSize) {
                     url += "&pageSize=" + _this.pageInfo.pageSize;
@@ -123,16 +128,16 @@
                 });
             },
             /**
-             * 删除客户
+             * 删除${comments}
              */
-            removeCustomer: function (id) {
+            del${className}: function (id) {
                 layer.confirm('确认要删除吗？',
                         function () {
                             //发异步删除数据
                             $.ajax({
-                                url: "/customer/removeCustomer",
+                                url: "/${classname}/deleteById",
                                 data: {
-                                    customerId: id
+                                    ${pk.columnName}: id
                                 },
                                 dataType: "json",
                                 type: "delete",
@@ -153,9 +158,13 @@
 
                         });
             },
-            updateCustomer: function (updateCustomerId) {
-                //把要修改的updateCustomerId存到sessionStorage中
-                sessionStorage.setItem("updateCustomerId", updateCustomerId);
+            /**
+             *
+             * 修改${comments}
+             */
+            edit${className}: function (edit${className}Id) {
+                //把要修改的edit${className}Id存到sessionStorage中
+                sessionStorage.setItem("edit${className}Id", edit${className}Id);
             }
         },
         created: function () {

@@ -49,6 +49,101 @@ public class GeneratorCode {
             genModelAndMapper(platformUrl, tableName); // 生成model和mapper
             genService(platformUrl, tableName); // 生成service
             genController(platformUrl, tableName); // 生成controller
+            genHtml(platformUrl, tableName);// 生成xx管理页面
+        }
+    }
+
+    public static void genHtml(String platformUrl, String tableName) throws Exception {
+        List<String> templates = new ArrayList<>();
+        templates.add("generator/manage.html.vm");
+        templates.add("generator/add.html.vm");
+        templates.add("generator/edit.html.vm");
+        //配置信息
+        Configuration config = getConfig();
+        //表信息
+        TableDO tableDO = new TableDO();
+        Map table = getTable(tableName);
+        tableDO.setTableName(tableName);
+        tableDO.setComments((String) table.get("tableComment"));
+        //表名转换成Java类名
+        String className = tableName;
+        tableDO.setClassName(StringUtil.snakeToCapHump(className));
+        tableDO.setClassname(StringUtils.uncapitalize(StringUtil.snakeToCapHump(className)));
+
+        //列信息
+        List<Map<String, String>> columns = getColumnsByTableName(tableName);
+        List<ColumnDO> columnsList = new ArrayList<>();
+        for (Map<String, String> column : columns) {
+            ColumnDO columnDO = new ColumnDO();
+            columnDO.setColumnName(column.get("columnName"));
+            columnDO.setDataType(column.get("dataType"));
+            columnDO.setComments(column.get("columnComment"));
+            columnDO.setExtra(column.get("extra"));
+
+            //列名转换成Java属性名
+            String attrName = StringUtil.snakeToCapHump(columnDO.getColumnName());
+            // String attrName = columnDO.getColumnName();
+            columnDO.setAttrName(attrName);
+            columnDO.setAttrname(StringUtils.uncapitalize(attrName));
+
+            //列的数据类型，转换成Java类型
+            String attrType = config.getString(columnDO.getDataType(), "unknowType");
+            columnDO.setAttrType(attrType);
+
+            //是否主键
+            if ("PRI".equalsIgnoreCase(column.get("columnKey")) && tableDO.getPk() == null) {
+                tableDO.setPk(columnDO);
+            }
+
+            columnsList.add(columnDO);
+        }
+        tableDO.setColumns(columnsList);
+
+        //没主键，则第一个字段为主键
+        if (tableDO.getPk() == null) {
+            tableDO.setPk(tableDO.getColumns().get(0));
+        }
+
+        //设置velocity资源加载器
+        Properties prop = new Properties();
+        prop.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        Velocity.init(prop);
+
+        //封装模板数据
+        Map<String, Object> map = new HashMap<>(16);
+        map.put("tableName", tableDO.getTableName());
+        map.put("comments", tableDO.getComments());
+        map.put("pk", tableDO.getPk());
+        map.put("className", tableDO.getClassName());
+        map.put("classname", tableDO.getClassname());
+        map.put("pathName", config.getString("package").substring(config.getString("package").lastIndexOf(".") + 1));
+        map.put("columns", tableDO.getColumns());
+        map.put("package", config.getString("package"));
+        map.put("author", config.getString("author"));
+        map.put("email", config.getString("email"));
+        map.put("platformUrl", platformUrl);
+        map.put("platFormUrl", columnToJava(platformUrl));
+        map.put("datetime", DateUtils.format(new java.util.Date(), DateUtils.DATE_TIME_PATTERN));
+        VelocityContext context = new VelocityContext(map);
+
+        //渲染模板
+        for (String template : templates) {
+            StringWriter sw = new StringWriter();
+            Template tpl = Velocity.getTemplate(template, "UTF-8");
+            tpl.merge(context, sw);
+            // System.out.println(sw.toString());
+
+            String fileName = getFileName(template, tableDO.getClassname(), tableDO.getClassName(), config.getString("package"), platformUrl);
+
+            File file = new File(fileName);
+            if (!file.getParentFile().exists()) {
+                file.getParentFile().mkdirs();
+            }
+            Files.write(Paths.get(fileName), sw.toString().getBytes());
+
+            System.out.println(
+                    tableDO.getTableName() + "Manage.html 生成成功\r\n" + tableDO.getTableName() + "Manage.html 生成成功"
+            );
         }
     }
 
@@ -518,6 +613,20 @@ public class GeneratorCode {
         if (template.contains("generator/Mapper.xml.vm")) {
             packagePath += "src/main/";
             return packagePath + File.separator + "resources" + File.separator + "mapper" + File.separator + className + "Mapper.xml";
+        }
+
+        if (template.contains("generator/manage.html.vm")) {
+            packagePath += "src/main/";
+            return packagePath + File.separator + "resources" + File.separator + "templates" + File.separator + className + "Manage.html";
+        }
+        if (template.contains("generator/add.html.vm")) {
+            packagePath += "src/main/";
+            return packagePath + File.separator + "resources" + File.separator + "templates" + File.separator + className + "Add.html";
+        }
+
+        if (template.contains("generator/edit.html.vm")) {
+            packagePath += "src/main/";
+            return packagePath + File.separator + "resources" + File.separator + "templates" + File.separator + className + "Edit.html";
         }
 
 

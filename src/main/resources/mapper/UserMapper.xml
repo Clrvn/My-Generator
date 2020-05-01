@@ -4,94 +4,79 @@
 <mapper namespace="com.dao.UserDao">
 
     <select id="findById" resultType="com.model.User">
-        select `id`, `name`, `password`, `phone`, `role_id`
-        from user
+        select `id`,`name`,`password`,`phone`,`role_id`        from user
         where id = #{id}
     </select>
 
     <select id="findByMap" resultType="com.model.User">
-        select `id`,`name`,`password`,`phone`,`role_id` from user
+        select `id`,`name`,`password`,`phone`,`role_id`        from user
         <where>
-            <if test="id != null and id != ''">
-                and id = #{id}
-            </if>
-            <if test="name != null and name != ''">
-                and name = #{name}
-            </if>
-            <if test="password != null and password != ''">
-                and password = #{password}
-            </if>
-            <if test="phone != null and phone != ''">
-                and phone = #{phone}
-            </if>
-            <if test="roleId != null and roleId != ''">
-                and role_id = #{roleId}
-            </if>
-        </where>
+                            <if test="id != null and id != ''">
+                    and id = #{id}
+                </if>
+                            <if test="name != null and name != ''">
+                    and name = #{name}
+                </if>
+                            <if test="password != null and password != ''">
+                    and password = #{password}
+                </if>
+                            <if test="phone != null and phone != ''">
+                    and phone = #{phone}
+                </if>
+                            <if test="roleId != null and roleId != ''">
+                    and role_id = #{roleId}
+                </if>
+                    </where>
     </select>
 
     <select id="list" resultType="com.model.User">
-        select `id`,`name`,`password`,`phone`,`role_id` from user
+        select `id`,`name`,`password`,`phone`,`role_id`        from user
         <where>
-            <if test="id != null and id != ''">and id =
-                #{id}
-            </if>
-            <if test="name != null and name != ''">and name =
-                #{name}
-            </if>
-            <if test="password != null and password != ''">and password =
-                #{password}
-            </if>
-            <if test="phone != null and phone != ''">and phone =
-                #{phone}
-            </if>
-            <if test="roleId != null and roleId != ''">and role_id =
-                #{roleId}
-            </if>
-        </where>
-        <choose>
-            <when test="sortColumn != null and sortColumn.trim() != ''">
-                order by ${sortColumn} ${orderBy}
-            </when>
-            <otherwise>
-                order by id desc
-            </otherwise>
-        </choose>
-        <if test="offset != null and limit != null">
-            limit #{offset}, #{limit}
-        </if>
+                            <if test="id != null and id != ''">and id =
+                    #{id}
+                </if>
+                            <if test="name != null and name != ''">and name =
+                    #{name}
+                </if>
+                            <if test="password != null and password != ''">and password =
+                    #{password}
+                </if>
+                            <if test="phone != null and phone != ''">and phone =
+                    #{phone}
+                </if>
+                            <if test="roleId != null and roleId != ''">and role_id =
+                    #{roleId}
+                </if>
+                    </where>
     </select>
 
-    <insert id="save" parameterType="com.model.User" useGeneratedKeys="true" keyProperty="id">
+    <insert id="save" parameterType="com.model.User"            useGeneratedKeys="true" keyProperty="id">
         insert into user(
-        <if test="name != null">`name`,</if>
-        <if test="password != null">`password`,</if>
-        <if test="phone != null">`phone`,</if>
-        <if test="roleId != null">`role_id`</if>
-        )
+                                                        <if test="name != null">`name`,</if>
+                                                <if test="password != null">`password`,</if>
+                                                <if test="phone != null">`phone`,</if>
+                                                <if test="roleId != null">`role_id`</if>
+                    )
         values (
-        <if test="name != null">#{name},</if>
-        <if test="password != null">#{password},</if>
-        <if test="phone != null">#{phone},</if>
-        <if test="roleId != null">#{roleId}</if>
-        )
+                                                        <if test="name != null">#{name},</if>
+                                                <if test="password != null">#{password},</if>
+                                                <if test="phone != null">#{phone},</if>
+                                                <if test="roleId != null">#{roleId}</if>
+                    )
     </insert>
 
     <update id="update" parameterType="com.model.User">
         update user
         <set>
-            <if test="name != null">`name` = #{name}
-                ,
-            </if>
-            <if test="password != null">`password` = #{password}
-                ,
-            </if>
-            <if test="phone != null">`phone` = #{phone}
-                ,
-            </if>
-            <if test="roleId != null">`role_id` = #{roleId}
-            </if>
-        </set>
+                                                                            <if test="name != null">`name` = #{name}
+                        ,</if>
+                                                                <if test="password != null">`password` = #{password}
+                        ,</if>
+                                                                <if test="phone != null">`phone` = #{phone}
+                        ,</if>
+                                                                <if test="roleId != null">`role_id` = #{roleId}
+                        </if>
+                                    </set>
         where id = #{id}
     </update>
 

@@ -15,7 +15,7 @@ import java.util.List;
  * ${comments}Controller
  *
  * @author ${author}
- * @date ${datetime}
+
  */
 @RestController
 @RequestMapping("/${classname}")

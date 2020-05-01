@@ -11,7 +11,7 @@ import java.util.Map;
  * ${comments}Service
  * 
  * @author ${author}
- * @date ${datetime}
+
  */
 public interface ${className}Service {
 

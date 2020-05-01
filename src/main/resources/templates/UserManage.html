@@ -57,8 +57,14 @@
                                 <button @click="editUser(user.id)"
                                         class="layui-btn layui-btn-warm"
                                         id="editUser"
-                                        onclick="xadmin.open('编辑用户','/userEdit',600,450)">
+                                        onclick="xadmin.open('编辑用户','/userEdit',700,350)">
                                     <i class="layui-icon">&#xe631;</i>编辑
+                                </button>
+                                <button @click="viewUser(user.id)"
+                                        class="layui-btn"
+                                        id="viewUser"
+                                        onclick="xadmin.open('用户详情','/userView',700,350)">
+                                    <i class="layui-icon layui-icon-console"></i>详情
                                 </button>
                                 <button @click="delUser(user.id)"
                                         class="layui-btn layui-btn-danger"

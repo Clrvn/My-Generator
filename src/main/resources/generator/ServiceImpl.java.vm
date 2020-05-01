@@ -12,13 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-
-
 /**
  * ${comments}ServiceImpl
- *
  * @author ${author}
-
  */
 @Service
 public class ${className}ServiceImpl implements ${className}Service {
@@ -84,6 +80,5 @@ public class ${className}ServiceImpl implements ${className}Service {
     public int deleteById(${pk.attrType} ${pk.attrname}) {
         return ${classname}Dao.deleteById(${pk.attrname});
     }
-
 
 }

@@ -58,6 +58,7 @@ public class GeneratorCode {
         templates.add("generator/manage.html.vm");
         templates.add("generator/add.html.vm");
         templates.add("generator/edit.html.vm");
+        templates.add("generator/view.html.vm");
         //配置信息
         Configuration config = getConfig();
         //表信息
@@ -627,6 +628,10 @@ public class GeneratorCode {
         if (template.contains("generator/edit.html.vm")) {
             packagePath += "src/main/";
             return packagePath + File.separator + "resources" + File.separator + "templates" + File.separator + className + "Edit.html";
+        }
+        if (template.contains("generator/view.html.vm")) {
+            packagePath += "src/main/";
+            return packagePath + File.separator + "resources" + File.separator + "templates" + File.separator + className + "View.html";
         }
 
 

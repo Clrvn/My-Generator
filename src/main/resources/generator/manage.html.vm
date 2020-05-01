@@ -59,8 +59,14 @@
                                 <button @click="edit${className}(${classname}.${pk.columnName})"
                                         class="layui-btn layui-btn-warm"
                                         id="edit${className}"
-                                        onclick="xadmin.open('编辑${comments}','/${classname}Edit',600,450)">
+                                        onclick="xadmin.open('编辑${comments}','/${classname}Edit',700,350)">
                                     <i class="layui-icon">&#xe631;</i>编辑
+                                </button>
+                                <button @click="view${className}(${classname}.${pk.columnName})"
+                                        class="layui-btn"
+                                        id="view${className}"
+                                        onclick="xadmin.open('${comments}详情','/${classname}View',700,350)">
+                                    <i class="layui-icon layui-icon-console"></i>详情
                                 </button>
                                 <button @click="del${className}(${classname}.${pk.columnName})"
                                         class="layui-btn layui-btn-danger"

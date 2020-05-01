@@ -12,13 +12,9 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Map;
 
-
-
 /**
  * 用户ServiceImpl
- *
  * @author Clrvn
- * @date 2020-05-01 17:18:25
  */
 @Service
 public class UserServiceImpl implements UserService {
@@ -84,6 +80,5 @@ public class UserServiceImpl implements UserService {
     public int deleteById(Integer id) {
         return userDao.deleteById(id);
     }
-
 
 }

@@ -9,9 +9,7 @@ import java.util.Map;
 
 /**
  * ${comments}Service
- * 
  * @author ${author}
-
  */
 public interface ${className}Service {
 

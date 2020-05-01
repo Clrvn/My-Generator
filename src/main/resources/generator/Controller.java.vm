@@ -13,9 +13,7 @@ import java.util.List;
 
 /**
  * ${comments}Controller
- *
  * @author ${author}
-
  */
 @RestController
 @RequestMapping("/${classname}")
@@ -82,7 +80,7 @@ public class ${className}Controller {
      * 删除${comments}
      */
     @DeleteMapping("/deleteById")
-    public ResultVO deleteById(@RequestParam(value = "${pk.columnName}") ${pk.attrType}  ${pk.columnName}) {
+    public ResultVO deleteById(@RequestParam(value = "${pk.columnName}") ${pk.attrType} ${pk.columnName}) {
         ${classname}Service.deleteById(${pk.columnName});
         return ResultVOUtil.success();
 

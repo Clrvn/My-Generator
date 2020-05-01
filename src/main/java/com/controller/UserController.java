@@ -13,9 +13,7 @@ import java.util.List;
 
 /**
  * 用户Controller
- *
  * @author Clrvn
- * @date 2020-05-01 17:18:25
  */
 @RestController
 @RequestMapping("/user")
@@ -82,7 +80,7 @@ public class UserController {
      * 删除用户
      */
     @DeleteMapping("/deleteById")
-    public ResultVO deleteById(@RequestParam(value = "id") Integer  id) {
+    public ResultVO deleteById(@RequestParam(value = "id") Integer id) {
         userService.deleteById(id);
         return ResultVOUtil.success();
 

@@ -1,14 +1,11 @@
 package com.model;
 
-
 import java.io.Serializable;
-import java.math.BigDecimal;
 
 import lombok.Data;
 
 /**
  * 用户
- *
  * @author Clrvn
  */
 @Data

@@ -68,5 +68,4 @@
         where ${pk.columnName} = #{$pk.columnName}
     </delete>
 
-
 </mapper>

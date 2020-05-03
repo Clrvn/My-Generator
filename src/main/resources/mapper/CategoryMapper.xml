@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.dao.CategoryDao">
+
+    <select id="findById" resultType="com.model.Category">
+        select `id`,`category_name`,`description`,`status`,`create_time`,`update_time`        from category
+        where id = #{id}
+    </select>
+
+    <select id="findByMap" resultType="com.model.Category">
+        select `id`,`category_name`,`description`,`status`,`create_time`,`update_time`        from category
+        <where>
+                            <if test="id != null and id != ''">
+                    and id = #{id}
+                </if>
+                            <if test="categoryName != null and categoryName != ''">
+                    and category_name = #{categoryName}
+                </if>
+                            <if test="description != null and description != ''">
+                    and description = #{description}
+                </if>
+                            <if test="status != null and status != ''">
+                    and status = #{status}
+                </if>
+                            <if test="createTime != null and createTime != ''">
+                    and create_time = #{createTime}
+                </if>
+                            <if test="updateTime != null and updateTime != ''">
+                    and update_time = #{updateTime}
+                </if>
+                    </where>
+    </select>
+
+    <select id="list" resultType="com.model.Category">
+        select `id`,`category_name`,`description`,`status`,`create_time`,`update_time`        from category
+        <where>
+                            <if test="id != null and id != ''">and id =
+                    #{id}
+                </if>
+                            <if test="categoryName != null and categoryName != ''">and category_name =
+                    #{categoryName}
+                </if>
+                            <if test="description != null and description != ''">and description =
+                    #{description}
+                </if>
+                            <if test="status != null and status != ''">and status =
+                    #{status}
+                </if>
+                            <if test="createTime != null and createTime != ''">and create_time =
+                    #{createTime}
+                </if>
+                            <if test="updateTime != null and updateTime != ''">and update_time =
+                    #{updateTime}
+                </if>
+                    </where>
+    </select>
+
+    <insert id="save" parameterType="com.model.Category"            useGeneratedKeys="true" keyProperty="id">
+        insert into category(<trim suffixOverrides=",">
+                                                        <if test="categoryName != null">`category_name`,</if>
+                                                <if test="description != null">`description`,</if>
+                                                <if test="status != null">`status`,</if>
+                                                <if test="createTime != null">`create_time`,</if>
+                                                <if test="updateTime != null">`update_time`</if>
+                    </trim>)
+        values (<trim suffixOverrides=",">
+                                                        <if test="categoryName != null">#{categoryName},</if>
+                                                <if test="description != null">#{description},</if>
+                                                <if test="status != null">#{status},</if>
+                                                <if test="createTime != null">#{createTime},</if>
+                                                <if test="updateTime != null">#{updateTime}</if>
+                    </trim>)
+    </insert>
+
+    <update id="update" parameterType="com.model.Category">
+        update category
+        <set>
+                                                                            <if test="categoryName != null">`category_name` = #{categoryName}
+                        ,</if>
+                                                                <if test="description != null">`description` = #{description}
+                        ,</if>
+                                                                <if test="status != null">`status` = #{status}
+                        ,</if>
+                                                                <if test="createTime != null">`create_time` = #{createTime}
+                        ,</if>
+                                                                <if test="updateTime != null">`update_time` = #{updateTime}
+                        </if>
+                                    </set>
+        where id = #{id}
+    </update>
+
+    <delete id="deleteById">
+        delete
+        from category
+        where id = #{id}
+    </delete>
+
+</mapper>

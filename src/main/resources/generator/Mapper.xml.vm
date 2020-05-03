@@ -35,18 +35,18 @@
 
     <insert id="save" parameterType="${package}.model.${className}"#if($pk.extra == 'auto_increment')
             useGeneratedKeys="true" keyProperty="$pk.attrname"#end>
-        insert into ${tableName}(
+        insert into ${tableName}(<trim suffixOverrides=",">
         #foreach($column in $columns)
             #if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
                 <if test="$column.attrname != null">`$column.columnName`#if($velocityCount != $columns.size()),#end</if>
             #end
-        #end)
-        values (
+        #end</trim>)
+        values (<trim suffixOverrides=",">
         #foreach($column in $columns)
             #if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
                 <if test="$column.attrname != null">#{$column.attrname}#if($velocityCount != $columns.size()),#end</if>
             #end
-        #end)
+        #end</trim>)
     </insert>
 
     <update id="update" parameterType="${package}.model.${className}">

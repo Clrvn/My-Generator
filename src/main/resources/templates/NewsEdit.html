@@ -2,7 +2,7 @@
 <html class="x-admin-sm" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>修改${comments}</title>
+    <title>修改新闻信息</title>
     <meta content="webkit" name="renderer">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" name="viewport"/>
@@ -14,28 +14,52 @@
     <script charset="utf-8" th:src="@{/js/vue.js}" type="text/javascript"></script>
 </head>
 <body>
-<div class="layui-fluid" id="vmUpdate${className}">
+<div class="layui-fluid" id="vmUpdateNews">
     <div class="layui-row">
         <form class="layui-form">
-            #foreach($column in $columns)
-                #if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
-                    #if($column.attrname != 'createTime' && $column.attrname != 'updateTime')
-                        <div class="layui-form-item">
-                            <label class="layui-form-label" for="$column.attrname">
-                                <span class="x-red">*</span>$column.comments
+                                                                                                    <div class="layui-form-item">
+                            <label class="layui-form-label" for="title">
+                                <span class="x-red">*</span>标题
                             </label>
                             <div class="layui-input-block">
                                 <div class="layui-input-inline layui-show-xs-block">
-                #if($column.dataType == 'text') <textarea class="layui-textarea" id="$column.attrname" name="$column.attrname" lay-verify="required" rows="4" v-model="${classname}.$column.attrname"></textarea> #end
-                #if($column.dataType != 'text') <input class="layui-input" id="$column.attrname" name="$column.attrname" lay-verify="required" type="text" v-model="${classname}.$column.attrname"> #end
-                                </div>
+                                 <input class="layui-input" id="title" name="title" lay-verify="required" type="text" v-model="news.title">                                 </div>
                             </div>
                         </div>
-                    #end
-
-                #end
-            #end
-            <div class="layui-form-item">
+                    
+                                                                                        <div class="layui-form-item">
+                            <label class="layui-form-label" for="content">
+                                <span class="x-red">*</span>内容
+                            </label>
+                            <div class="layui-input-block">
+                                <div class="layui-input-inline layui-show-xs-block">
+                 <textarea class="layui-textarea" id="content" name="content" lay-verify="required" rows="4" v-model="news.content"></textarea>                                                 </div>
+                            </div>
+                        </div>
+                    
+                                                                                        <div class="layui-form-item">
+                            <label class="layui-form-label" for="description">
+                                <span class="x-red">*</span>描述
+                            </label>
+                            <div class="layui-input-block">
+                                <div class="layui-input-inline layui-show-xs-block">
+                 <textarea class="layui-textarea" id="description" name="description" lay-verify="required" rows="4" v-model="news.description"></textarea>                                                 </div>
+                            </div>
+                        </div>
+                    
+                                                                                        <div class="layui-form-item">
+                            <label class="layui-form-label" for="type">
+                                <span class="x-red">*</span>新闻类型
+                            </label>
+                            <div class="layui-input-block">
+                                <div class="layui-input-inline layui-show-xs-block">
+                                 <input class="layui-input" id="type" name="type" lay-verify="required" type="text" v-model="news.type">                                 </div>
+                            </div>
+                        </div>
+                    
+                                                                
+                                                                
+                                        <div class="layui-form-item">
                 <label class="layui-form-label"></label>
                 <button class="layui-btn" lay-filter="edit" lay-submit="">
                     确认修改
@@ -46,28 +70,28 @@
 </div>
 <script charset="UTF-8" type="text/javascript">
 
-    var edit${className}Id = sessionStorage.getItem("edit${className}Id");
+    var editNewsId = sessionStorage.getItem("editNewsId");
 
     vm = new Vue({
-        el: "#vmUpdate${className}",
+        el: "#vmUpdateNews",
         data: {
-            ${classname}: {}
+            news: {}
         },
         methods: {},
         created: function () {
             var _this = this;
             $.ajax({
-                url: "/${classname}/findById",
+                url: "/news/findById",
                 data: {
-                    "${pk.columnName}": edit${className}Id
+                    "id": editNewsId
                 },
                 dataType: "json",
                 type: "get",
                 success: function (result) {
                     if (result.code === 200) {
-                        _this.${classname} = result.data;
+                        _this.news = result.data;
                     } else {
-                        layer.alert("获取修改${comments}信息失败！");
+                        layer.alert("获取修改新闻信息信息失败！");
                     }
                 }
             });
@@ -86,11 +110,11 @@
                         function (data) {
 
                             //组装数据
-                            data.field.id = edit${className}Id;
+                            data.field.id = editNewsId;
 
                             //发异步，把数据提交给controller
                             $.ajax({
-                                url: "${classname}/update",
+                                url: "news/update",
                                 data: JSON.stringify(data.field),
                                 dataType: "json",
                                 contentType: "application/json",

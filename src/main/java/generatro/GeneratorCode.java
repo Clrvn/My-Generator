@@ -40,7 +40,7 @@ public class GeneratorCode {
     public static String AUTO_REMOVE_PRE = "true";
 
     public static void main(String[] args) throws Exception {
-        genCodeByTableNames("admin", "user");
+        genCodeByTableNames("admin", "user", "category", "clean",  "comment", "news", "order", "record");
     }
 
     public static void genCodeByTableNames(String platformUrl, String... tableNames) throws Exception {

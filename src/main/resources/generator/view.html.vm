@@ -25,9 +25,7 @@
                         </label>
                         <div class="layui-input-block">
                             <div class="layui-input-inline layui-show-xs-block">
-                                <input :value="${classname}.$column.attrname" class="layui-input" id="$column.attrname"
-                                       name="$column.attrname"
-                                       readonly type="text">
+                                <div style="line-height: 36px" id="$column.attrname" v-text="${classname}.$column.attrname"></div>
                             </div>
                         </div>
                     </div>
@@ -35,7 +33,7 @@
             #end
             <div class="layui-form-item">
                 <label class="layui-form-label"></label>
-                <button class="layui-btn"  onclick="xadmin.close();"  style="width: 100px;">
+                <button class="layui-btn" onclick="xadmin.close();" style="width: 100px;">
                     返回
                 </button>
             </div>
@@ -47,32 +45,33 @@
     var view${className}Id = sessionStorage.getItem("view${className}Id");
 
     vm = new Vue({
-        el: "#vmView${className}",
-        data: {
-            ${classname}: {}
-        },
-        methods: {},
-        created: function () {
-            var _this = this;
-            $.ajax({
-                url: "/${classname}/findById",
-                data: {
-                    "${pk.columnName}": view${className}Id
-                },
-                dataType: "json",
-                type: "get",
-                success: function (result) {
-                    if (result.code === 200) {
-                        _this.${classname} = result.data;
-                    } else {
-                        layer.alert("获取修改${comments}信息失败！");
-                    }
+    el: "#vmView${className}",
+    data: {
+    ${classname}: {}
+    },
+    methods: {},
+    created: function () {
+        var _this = this;
+        $.ajax({
+            url: "/${classname}/findById",
+            data: {
+                "${pk.columnName}": view${className}Id
+            },
+            dataType: "json",
+            type: "get",
+            success: function (result) {
+                if (result.code === 200) {
+                    _this.${classname} = result.data;
+                } else {
+                    layer.alert("获取修改${comments}信息失败！");
                 }
-            });
+            }
+        });
 
-        }
+    }
     });
-    layui.use(['form', 'layer', 'laydate'],function () {});
+
+    layui.use(['form', 'layer', 'laydate'], function () {});
 </script>
 </body>
 </html>

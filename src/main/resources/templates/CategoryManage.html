@@ -2,7 +2,7 @@
 <html class="x-admin-sm" lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>${comments}管理</title>
+    <title>服务分类管理</title>
     <meta content="webkit" name="renderer">
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
     <meta content="width=device-width,user-scalable=yes, minimum-scale=0.4, initial-scale=0.8" name="viewport"/>
@@ -26,12 +26,12 @@
 </div>
 <div class="layui-fluid">
     <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12" id="vm${className}">
+        <div class="layui-col-md12" id="vmCategory">
             <div class="layui-card">
 
                 <div class="layui-card-header">
-                    <button class="layui-btn" onclick="xadmin.open('添加${comments}','/${classname}Add',500,700)">
-                        <i class="layui-icon"></i>添加${comments}
+                    <button class="layui-btn" onclick="xadmin.open('添加服务分类','/categoryAdd',500,700)">
+                        <i class="layui-icon"></i>添加服务分类
                     </button>
                 </div>
                 <div class="layui-card-body">
@@ -39,44 +39,44 @@
                         <thead>
                         <tr>
                             <th>序号</th>
-                    #foreach($column in $columns)
-                        #if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
-                            <th>$column.comments</th>
-                        #end
-                    #end
-                            <th>操作</th>
+                                                                                                                    <th>分类名称</th>
+                                                                                                <th>分类描述</th>
+                                                                                                <th>状态</th>
+                                                                                                <th>创建时间</th>
+                                                                                                <th>修改时间</th>
+                                                                        <th>操作</th>
                         </tr>
                         </thead>
                         <tbody>
-                        <tr v-for="${classname},i in pageInfo.list">
+                        <tr v-for="category,i in pageInfo.list">
                             <td v-text="i+1"></td>
-                        #foreach($column in $columns)
-                            #if($column.columnName != $pk.columnName || $pk.extra != 'auto_increment')
-                            <td v-text="${classname}.$column.attrname"></td>
-                            #end
-                        #end
-                            <td class="td-manage">
-                                <button @click="edit${className}(${classname}.${pk.columnName})"
+                                                                                                                                    <td v-text="category.categoryName"></td>
+                                                                                                            <td v-text="category.description"></td>
+                                                                                                            <td v-text="category.status"></td>
+                                                                                                            <td v-text="category.createTime"></td>
+                                                                                                            <td v-text="category.updateTime"></td>
+                                                                                <td class="td-manage">
+                                <button @click="editCategory(category.id)"
                                         class="layui-btn layui-btn-warm"
-                                        id="edit${className}"
-                                        onclick="xadmin.open('编辑${comments}','/${classname}Edit',500,700)">
+                                        id="editCategory"
+                                        onclick="xadmin.open('编辑服务分类','/categoryEdit',500,700)">
                                     <i class="layui-icon">&#xe631;</i>编辑
                                 </button>
-                                <button @click="view${className}(${classname}.${pk.columnName})"
+                                <button @click="viewCategory(category.id)"
                                         class="layui-btn"
-                                        id="view${className}"
-                                        onclick="xadmin.open('${comments}详情','/${classname}View',500,700)">
+                                        id="viewCategory"
+                                        onclick="xadmin.open('服务分类详情','/categoryView',500,700)">
                                     <i class="layui-icon layui-icon-console"></i>详情
                                 </button>
-                                <button @click="del${className}(${classname}.${pk.columnName})"
+                                <button @click="delCategory(category.id)"
                                         class="layui-btn layui-btn-danger"
-                                        id="del${className}">
+                                        id="delCategory">
                                     <i class="layui-icon">&#xe640;</i>删除
                                 </button>
                             </td>
                         </tr>
                         <tr v-if="pageInfo.total == 0">
-                            <td colspan="100" style="text-align: center">暂无${comments}信息！</td>
+                            <td colspan="100" style="text-align: center">暂无服务分类信息！</td>
                         </tr>
                         </tbody>
                     </table>
@@ -114,14 +114,14 @@
     });
 
     vm = new Vue({
-        el: "#vm${className}",
+        el: "#vmCategory",
         data: {
             pageInfo: {}
         },
         methods: {
             getPage: function (pageNum, pageSize) {
                 var _this = this;
-                var url = "/${classname}/page?pageNum=" + pageNum;
+                var url = "/category/page?pageNum=" + pageNum;
 
                 if (!pageSize) {
                     url += "&pageSize=" + _this.pageInfo.pageSize;
@@ -134,16 +134,16 @@
                 });
             },
             /**
-             * 删除${comments}
+             * 删除服务分类
              */
-            del${className}: function (id) {
+            delCategory: function (id) {
                 layer.confirm('确认要删除吗？',
                         function () {
                             //发异步删除数据
                             $.ajax({
-                                url: "/${classname}/deleteById",
+                                url: "/category/deleteById",
                                 data: {
-                                    ${pk.columnName}: id
+                                    id: id
                                 },
                                 dataType: "json",
                                 type: "delete",
@@ -166,19 +166,19 @@
             },
             /**
              *
-             * 修改${comments}
+             * 修改服务分类
              */
-            edit${className}: function (edit${className}Id) {
-                //把要修改的edit${className}Id存到sessionStorage中
-                sessionStorage.setItem("edit${className}Id", edit${className}Id);
+            editCategory: function (editCategoryId) {
+                //把要修改的editCategoryId存到sessionStorage中
+                sessionStorage.setItem("editCategoryId", editCategoryId);
             },
             /**
              *
-             * ${comments}详情
+             * 服务分类详情
              */
-            view${className}: function (view${className}Id) {
-                //把要修改的view${className}Id存到sessionStorage中
-                sessionStorage.setItem("view${className}Id", view${className}Id);
+            viewCategory: function (viewCategoryId) {
+                //把要修改的viewCategoryId存到sessionStorage中
+                sessionStorage.setItem("viewCategoryId", viewCategoryId);
             }
         },
         created: function () {

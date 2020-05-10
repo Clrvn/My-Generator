@@ -505,101 +505,6 @@ public final class CalendarUtil {
         return dateToStr(d, toFormat);
     }
 
-    public enum TimeFormat {
-        HH_mm_ss("HH:mm:ss"),
-        HH_mm("HH:mm"),
-        mm_ss("mm:ss"),
-        HHmmss("HHmmss"),
-        HHmm("HHmm"),
-        HH("HH"),
-        mmss("mmss"),
-        mm("mm"),
-        ss("ss"),
-        yyyy_year_MM_month_dd_day_HH_hour_mm_min_ss_sec("yyyy年MM月dd日 HH:mm:ss"),
-        yyyy_MM_dd__HH_mm_ss("yyyy-MM-dd HH:mm:ss"),
-        yyyy_MM_dd__HH_mm("yyyy-MM-dd HH:mm"),
-        yyyy_MM_dd__HH("yyyy-MM-dd HH"),
-        yyyyMMddHHmmss("yyyyMMddHHmmss"),
-        yyyyMMddHHmm("yyyyMMddHHmm"),
-        yyyyMMddHH("yyyyMMddHH"),
-        yyyyMMdd("yyyyMMdd"),
-        yyyy_MM_dd("yyyy-MM-dd"),
-        yyyy_MM("yyyy-MM"),
-        yyyy_M_d("yyyy-M-d"),
-        yyyyMM("yyyyMM"),
-        yyyy_slash_MM_slash_dd("yyyy/MM/dd"),
-        yyyy_slash_MM("yyyy/MM"),
-        yyyy("yyyy"),
-        MM("MM"),
-        dd("dd");
-
-        private String format;
-
-        TimeFormat(String format) {
-            this.format = format;
-        }
-
-        public static TimeFormat forFormat(String format) {
-            for (TimeFormat c : values()) {
-                if (c.toString().equals(format)) {
-                    return c;
-                }
-            }
-            return null;
-        }
-
-        public String toString() {
-            return this.format;
-        }
-
-        public String getTimeFormat() {
-            return this.format;
-        }
-    }
-
-    /**
-     * 内部的枚举类型
-     */
-    public enum Field {
-        SECONDS(Calendar.SECOND, "seconds"),// 秒
-        MINUTE(Calendar.MINUTE, "minute"),// 分
-        HOUR(Calendar.HOUR_OF_DAY, "hour"),// 时
-        DAY(Calendar.DAY_OF_MONTH, "day"),// 天
-        WEEK(Calendar.WEEK_OF_YEAR, "week_of_year"),// 周
-        MONTH(Calendar.MONTH, "month"),// 月
-        YEAR(Calendar.YEAR, "year");// 年
-
-        private int value;
-        private String description;
-
-        Field(int value, String content) {
-            this.value = value;
-            this.description = content;
-        }
-
-        public static Field valueOf(int field) {
-            for (Field f : Field.values()) {
-                if (f.getValue() == field) {
-                    return f;
-                }
-            }
-            return null;
-        }
-
-        public int getValue() {
-            return this.value;
-        }
-
-        public String getDescription() {
-            return this.description;
-        }
-
-        public Field setType(int value) {
-            this.value = value;
-            return this;
-        }
-    }
-
     /**
      * 获取当前时间的整点小时时间
      *
@@ -690,7 +595,6 @@ public final class CalendarUtil {
         return calendar.getTime().getTime() / 1000;
     }
 
-
     /**
      * 获取今天最后一秒
      */
@@ -772,7 +676,6 @@ public final class CalendarUtil {
         return cal.getTimeInMillis() / 1000;
     }
 
-
     /**
      * 获取本周最后一天
      */
@@ -785,7 +688,6 @@ public final class CalendarUtil {
 
         return cal.getTimeInMillis() / 1000;
     }
-
 
     // 获取本周的结束时间戳
     public static long getEndTimeOfWeek() {
@@ -859,7 +761,6 @@ public final class CalendarUtil {
         calendar.set(Calendar.MILLISECOND, 0);
         return calendar.getTime().getTime() / 1000;
     }
-
 
     /**
      * 获取某个月份的结束时间戳
@@ -961,8 +862,103 @@ public final class CalendarUtil {
     public static void main(String[] args) {
         Calendar calendar = Calendar.getInstance();
 
-        calendar.set(2019, 11-1, 25, 16, 45, 0);
+        calendar.set(2019, 11 - 1, 25, 16, 45, 0);
         System.out.println(calendar.getTimeInMillis() / 1000);
+    }
+
+    public enum TimeFormat {
+        HH_mm_ss("HH:mm:ss"),
+        HH_mm("HH:mm"),
+        mm_ss("mm:ss"),
+        HHmmss("HHmmss"),
+        HHmm("HHmm"),
+        HH("HH"),
+        mmss("mmss"),
+        mm("mm"),
+        ss("ss"),
+        yyyy_year_MM_month_dd_day_HH_hour_mm_min_ss_sec("yyyy年MM月dd日 HH:mm:ss"),
+        yyyy_MM_dd__HH_mm_ss("yyyy-MM-dd HH:mm:ss"),
+        yyyy_MM_dd__HH_mm("yyyy-MM-dd HH:mm"),
+        yyyy_MM_dd__HH("yyyy-MM-dd HH"),
+        yyyyMMddHHmmss("yyyyMMddHHmmss"),
+        yyyyMMddHHmm("yyyyMMddHHmm"),
+        yyyyMMddHH("yyyyMMddHH"),
+        yyyyMMdd("yyyyMMdd"),
+        yyyy_MM_dd("yyyy-MM-dd"),
+        yyyy_MM("yyyy-MM"),
+        yyyy_M_d("yyyy-M-d"),
+        yyyyMM("yyyyMM"),
+        yyyy_slash_MM_slash_dd("yyyy/MM/dd"),
+        yyyy_slash_MM("yyyy/MM"),
+        yyyy("yyyy"),
+        MM("MM"),
+        dd("dd");
+
+        private String format;
+
+        TimeFormat(String format) {
+            this.format = format;
+        }
+
+        public static TimeFormat forFormat(String format) {
+            for (TimeFormat c : values()) {
+                if (c.toString().equals(format)) {
+                    return c;
+                }
+            }
+            return null;
+        }
+
+        public String toString() {
+            return this.format;
+        }
+
+        public String getTimeFormat() {
+            return this.format;
+        }
+    }
+
+    /**
+     * 内部的枚举类型
+     */
+    public enum Field {
+        SECONDS(Calendar.SECOND, "seconds"),// 秒
+        MINUTE(Calendar.MINUTE, "minute"),// 分
+        HOUR(Calendar.HOUR_OF_DAY, "hour"),// 时
+        DAY(Calendar.DAY_OF_MONTH, "day"),// 天
+        WEEK(Calendar.WEEK_OF_YEAR, "week_of_year"),// 周
+        MONTH(Calendar.MONTH, "month"),// 月
+        YEAR(Calendar.YEAR, "year");// 年
+
+        private int value;
+        private String description;
+
+        Field(int value, String content) {
+            this.value = value;
+            this.description = content;
+        }
+
+        public static Field valueOf(int field) {
+            for (Field f : Field.values()) {
+                if (f.getValue() == field) {
+                    return f;
+                }
+            }
+            return null;
+        }
+
+        public int getValue() {
+            return this.value;
+        }
+
+        public String getDescription() {
+            return this.description;
+        }
+
+        public Field setType(int value) {
+            this.value = value;
+            return this;
+        }
     }
 
 }

@@ -2,8 +2,7 @@ package com.utils;
 
 import cn.hutool.core.util.NumberUtil;
 import cn.hutool.core.util.ObjectUtil;
-import org.apache.commons.lang.ObjectUtils;
-import org.apache.commons.lang.StringUtils;
+import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -17,11 +16,12 @@ import java.util.Map;
 
 /**
  * 获取请求参数工具类
+ *
  * @author Clrvn
  */
 public class RequestParamsUtil {
     private static final Logger log = LoggerFactory.getLogger(RequestParamsUtil.class);
-    protected Map<String, Object> values = new LinkedHashMap<>();
+    private Map<String, Object> values = new LinkedHashMap<>();
     private int pageNo = 1;
     private int pageSize = 10;
 
@@ -33,8 +33,8 @@ public class RequestParamsUtil {
 
             while (params.hasMoreElements()) {
                 String name = params.nextElement();
-                String value = StringUtils.trim(request.getParameter(name));
-                if (StringUtils.isNotEmpty(value)) {
+                String value = StrUtil.trim(request.getParameter(name));
+                if (StrUtil.isNotEmpty(value)) {
                     this.set(name, URLDecoder.decode(value, "UTF-8"));
                 }
             }
@@ -49,8 +49,8 @@ public class RequestParamsUtil {
 
 
     public int getPageNo() {
-        String pageNum = ObjectUtils.toString(this.get("pageNum"));
-        if (!StringUtils.isEmpty(pageNum) && NumberUtil.isNumber(pageNum)) {
+        String pageNum = String.valueOf(this.get("pageNum"));
+        if (!StrUtil.isEmpty(pageNum) && NumberUtil.isNumber(pageNum)) {
             this.pageNo = Integer.parseInt(pageNum);
         }
 
@@ -58,8 +58,8 @@ public class RequestParamsUtil {
     }
 
     public int getPageSize() {
-        String pageSize = ObjectUtils.toString(this.get("pageSize"));
-        if (!StringUtils.isEmpty(pageSize) || NumberUtil.isNumber(pageSize)) {
+        String pageSize = String.valueOf(this.get("pageSize"));
+        if (!StrUtil.isEmpty(pageSize) || NumberUtil.isNumber(pageSize)) {
             this.pageSize = Integer.parseInt(pageSize);
         }
 
@@ -80,26 +80,26 @@ public class RequestParamsUtil {
     }
 
     public String getString(String key) {
-        return ObjectUtils.toString(this.get(key));
+        return String.valueOf(this.get(key));
     }
 
     public String getSort() {
-        return ObjectUtils.toString(this.values.get("sort"));
+        return String.valueOf(this.values.get("sort"));
     }
 
     public String getOrder() {
-        return ObjectUtils.toString(this.values.get("order"));
+        return String.valueOf(this.values.get("order"));
     }
 
     public String getOrderBy() {
-        return ObjectUtils.toString(this.values.get("orderby"));
+        return String.valueOf(this.values.get("orderby"));
     }
 
     public void parsePagingQueryParams() {
-        String orderby = ObjectUtils.toString(this.get("orderby")).trim();
-        String sortName = ObjectUtils.toString(this.get("sort")).trim();
-        String sortOrder = ObjectUtils.toString(this.get("order")).trim().toLowerCase();
-        if (StringUtils.isEmpty(orderby) && !StringUtils.isEmpty(sortName)) {
+        String orderby = String.valueOf(this.get("orderby")).trim();
+        String sortName = String.valueOf(this.get("sort")).trim();
+        String sortOrder = String.valueOf(this.get("order")).trim().toLowerCase();
+        if (StrUtil.isEmpty(orderby) && !StrUtil.isEmpty(sortName)) {
             if (!"asc".equals(sortOrder) && !"desc".equals(sortOrder)) {
                 sortOrder = "asc";
             }

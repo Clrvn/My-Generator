@@ -28,7 +28,7 @@ public class GeneratorCode {
     //项目在硬盘上的基础路径
     private static final String PROJECT_PATH = System.getProperty("user.dir");
     //JDBC配置，请修改为你项目的实际配置
-    private static final String JDBC_DATABASE = "homemaking";
+    private static final String JDBC_DATABASE = "express_system";
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/" + JDBC_DATABASE + "?serverTimezone=Asia/Shanghai";
     private static final String JDBC_USERNAME = "root";
     private static final String JDBC_PASSWORD = "root";
@@ -40,7 +40,7 @@ public class GeneratorCode {
     public static String AUTO_REMOVE_PRE = "true";
 
     public static void main(String[] args) throws Exception {
-        genCodeByTableNames("admin", "user", "category", "clean",  "comment", "news", "order", "record");
+        genCodeByTableNames("admin", "user", "order_list");
     }
 
     public static void genCodeByTableNames(String platformUrl, String... tableNames) throws Exception {

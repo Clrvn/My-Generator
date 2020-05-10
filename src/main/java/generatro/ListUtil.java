@@ -15,9 +15,7 @@ public class ListUtil {
     public static boolean isNotNull(List<?> list) {
 
         if (null != list) {
-            if ((list.size() > 0) && !list.isEmpty()) {
-                return true;
-            }
+            return (list.size() > 0) && !list.isEmpty();
         }
         return false;
     }
@@ -30,10 +28,7 @@ public class ListUtil {
      */
     public static boolean isNull(List<?> list) {
 
-        if (null == list || list.size() == 0 || list.isEmpty()) {
-            return true;
-        }
-        return false;
+        return null == list || list.size() == 0 || list.isEmpty();
     }
 
     /**

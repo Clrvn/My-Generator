@@ -54,7 +54,6 @@ public class StringUtil {
     public static String fixed(int number, int minlen) {
         String result;
         for (result = String.valueOf(number); result.length() < minlen; result = "0" + result) {
-            ;
         }
 
         return result;
@@ -64,7 +63,6 @@ public class StringUtil {
         int count = 0;
 
         for (int fromindex = -1; (fromindex = str.indexOf(s1, fromindex + 1)) > -1; ++count) {
-            ;
         }
 
         return count;
@@ -332,7 +330,7 @@ public class StringUtil {
 
     public static String addzero(int num, int length) {
         String str = "";
-        if ((double) num < Math.pow(10.0D, (double) (length - 1))) {
+        if ((double) num < Math.pow(10.0D, length - 1)) {
             for (int i = 0; i < length - (num + "").length(); ++i) {
                 str = str + "0";
             }
@@ -352,7 +350,7 @@ public class StringUtil {
     }
 
     public static boolean isNum(String sNum) {
-        return isTrimEmpty(sNum) ? false : sNum.matches("[0-9]*");
+        return !isTrimEmpty(sNum) && sNum.matches("[0-9]*");
     }
 
     public static int getByteLength(String s) {
@@ -588,7 +586,7 @@ public class StringUtil {
     }
 
     public static String sqlIds(List<Integer> ids) {
-        StringBuilder sbStr = new StringBuilder("");
+        StringBuilder sbStr = new StringBuilder();
         Iterator var2 = ids.iterator();
 
         while (var2.hasNext()) {
@@ -771,7 +769,7 @@ public class StringUtil {
      */
     public static final String getOrderNum(Long appUserId) {
         Date today = new Date();
-        String orderNum = CalendarUtil.dateToStr(today, CalendarUtil.TimeFormat.yyyyMMddHHmmss) + String.valueOf(5678 + appUserId);//订单号
+        String orderNum = CalendarUtil.dateToStr(today, CalendarUtil.TimeFormat.yyyyMMddHHmmss) + (5678 + appUserId);//订单号
         return orderNum;
     }
 

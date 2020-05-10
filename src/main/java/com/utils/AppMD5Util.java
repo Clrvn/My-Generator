@@ -4,7 +4,7 @@ import java.math.BigInteger;
 import java.security.MessageDigest;
 
 public class AppMD5Util {
-    
+
     /**
      * @param str 传入要加密的字符串
      * @return MD5加密后的字符串
@@ -25,18 +25,18 @@ public class AppMD5Util {
             return null;
         }
     }
-    
+
     /**
      * @param s 传入要加密的字符串
      * @return // MD5加密后的字符串
      * @description 对字符串md5加密(大写 + 数字)
      */
     public static String MD5(String s) {
-        
+
         char[] hexDigits = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F'};
-        
+
         try {
-            
+
             byte[] btInput = s.getBytes(); // 获得MD5摘要算法的 MessageDigest 对象
             MessageDigest mdInst = MessageDigest.getInstance("MD5"); // 使用指定的字节更新摘要
             mdInst.update(btInput); // 获得密文
@@ -54,5 +54,5 @@ public class AppMD5Util {
             return null;
         }
     }
-    
+
 }

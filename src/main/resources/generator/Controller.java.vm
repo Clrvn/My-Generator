@@ -63,8 +63,12 @@ public class ${className}Controller {
      */
     @PostMapping("/save")
     public ResultVO save(@RequestBody ${className} ${classname}) {
-        ${classname}Service.save(${classname});
-        return ResultVOUtil.success();
+        try{
+            ${classname}Service.save(${classname});
+            return ResultVOUtil.success();
+        }catch (Exception ex){
+            return ResultVOUtil.failure("添加失败！");
+        }
     }
 
     /**
@@ -72,8 +76,13 @@ public class ${className}Controller {
      */
     @PutMapping("/update")
     public ResultVO update(@RequestBody ${className} ${classname}) {
-        ${classname}Service.update(${classname});
-        return ResultVOUtil.success();
+        try{
+            ${classname}Service.update(${classname});
+            return ResultVOUtil.success();
+        }catch (Exception ex){
+            return ResultVOUtil.failure("修改失败！");
+        }
+
     }
 
     /**
@@ -81,9 +90,12 @@ public class ${className}Controller {
      */
     @DeleteMapping("/deleteById")
     public ResultVO deleteById(@RequestParam(value = "${pk.columnName}") ${pk.attrType} ${pk.columnName}) {
-        ${classname}Service.deleteById(${pk.columnName});
-        return ResultVOUtil.success();
-
+        try{
+            ${classname}Service.deleteById(${pk.columnName});
+            return ResultVOUtil.success();
+        }catch (Exception ex){
+            return ResultVOUtil.failure("删除失败！");
+        }
     }
 
 }

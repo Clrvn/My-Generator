@@ -84,7 +84,7 @@
                 <div class="layui-card-body" v-if="pageInfo.total != 0">
                     <div class="page">
                         <div>
-                            <a class="prev" href="javascript:void(0)">
+                            <a @click="getPage(pageInfo.firstPage)" class="prev" href="javascript:void(0)">
                                 首页
                             </a>
                             <a @click="getPage(pageInfo.prePage)" class="prev" href="javascript:void(0)"

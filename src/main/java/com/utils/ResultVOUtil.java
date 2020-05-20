@@ -27,4 +27,11 @@ public class ResultVOUtil {
         resultVO.setMsg(resultEnum.getMsg());
         return resultVO;
     }
+
+    public static ResultVO failure(String msg) {
+        ResultVO resultVO = new ResultVO();
+        resultVO.setCode(500);
+        resultVO.setMsg(msg);
+        return resultVO;
+    }
 }

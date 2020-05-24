@@ -28,7 +28,7 @@ public class GeneratorCode {
     //项目在硬盘上的基础路径
     private static final String PROJECT_PATH = System.getProperty("user.dir");
     //JDBC配置，请修改为你项目的实际配置
-    private static final String JDBC_DATABASE = "estate_manage";
+    private static final String JDBC_DATABASE = "self_service_ordering";
     private static final String JDBC_URL = "jdbc:mysql://localhost:3306/" + JDBC_DATABASE + "?serverTimezone=Asia/Shanghai";
     private static final String JDBC_USERNAME = "root";
     private static final String JDBC_PASSWORD = "root";
@@ -40,7 +40,7 @@ public class GeneratorCode {
     public static String AUTO_REMOVE_PRE = "true";
 
     public static void main(String[] args) throws Exception {
-        genCodeByTableNames("admin", "account");
+        genCodeByTableNames("admin", "activity", "category", "desk", "dish", "order", "score_rule", "user");
     }
 
     public static void genCodeByTableNames(String platformUrl, String... tableNames) throws Exception {
@@ -618,20 +618,20 @@ public class GeneratorCode {
 
         if (template.contains("generator/manage.html.vm")) {
             packagePath += "src/main/";
-            return packagePath + File.separator + "resources" + File.separator + "templates" + File.separator + className + "Manage.html";
+            return packagePath + File.separator + "resources" + File.separator + "templates" + File.separator + classname + "Manage.html";
         }
         if (template.contains("generator/add.html.vm")) {
             packagePath += "src/main/";
-            return packagePath + File.separator + "resources" + File.separator + "templates" + File.separator + className + "Add.html";
+            return packagePath + File.separator + "resources" + File.separator + "templates" + File.separator + classname + "Add.html";
         }
 
         if (template.contains("generator/edit.html.vm")) {
             packagePath += "src/main/";
-            return packagePath + File.separator + "resources" + File.separator + "templates" + File.separator + className + "Edit.html";
+            return packagePath + File.separator + "resources" + File.separator + "templates" + File.separator + classname + "Edit.html";
         }
         if (template.contains("generator/view.html.vm")) {
             packagePath += "src/main/";
-            return packagePath + File.separator + "resources" + File.separator + "templates" + File.separator + className + "View.html";
+            return packagePath + File.separator + "resources" + File.separator + "templates" + File.separator + classname + "View.html";
         }
 
 

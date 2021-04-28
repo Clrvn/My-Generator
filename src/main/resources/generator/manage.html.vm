@@ -24,9 +24,33 @@
         <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i>
     </a>
 </div>
-<div class="layui-fluid">
+<div class="layui-fluid" id="vm${className}">
     <div class="layui-row layui-col-space15">
-        <div class="layui-col-md12" id="vm${className}">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <form id="${classname}ManageForm" class="layui-form layui-col-space5" onsubmit="return false;">
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <label>名称：</label>
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <input class="layui-input" name="name" placeholder="请输入">
+                        </div>
+                        <div class="layui-input-inline layui-show-xs-block">
+                            <button @click="search()" class="layui-btn-primary" lay-filter="search" lay-submit="" type="submit">
+                                <i class="layui-icon layui-icon-search"></i>搜索
+                            </button>
+                            <button class="layui-btn" type="reset">
+                                <i class="layui-icon layui-icon-refresh"></i>重置
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
             <div class="layui-card">
 
                 <div class="layui-card-header">
@@ -61,12 +85,6 @@
                                         id="edit${className}"
                                         onclick="xadmin.open('编辑${comments}','/${classname}Edit',500,700)">
                                     <i class="layui-icon">&#xe631;</i>编辑
-                                </button>
-                                <button @click="view${className}(${classname}.${pk.columnName})"
-                                        class="layui-btn"
-                                        id="view${className}"
-                                        onclick="xadmin.open('${comments}详情','/${classname}View',500,700)">
-                                    <i class="layui-icon layui-icon-console"></i>详情
                                 </button>
                                 <button @click="del${className}(${classname}.${pk.columnName})"
                                         class="layui-btn layui-btn-danger"
@@ -129,6 +147,8 @@
                     url += "&pageSize=" + pageSize;
                 }
 
+                url += "&name=" + $("#${classname}ManageForm [name=name]").val().trim();
+
                 $.getJSON(url, function (data) {
                     _this.pageInfo = data;
                 });
@@ -179,6 +199,9 @@
             view${className}: function (view${className}Id) {
                 //把要修改的view${className}Id存到sessionStorage中
                 sessionStorage.setItem("view${className}Id", view${className}Id);
+            },
+            search() {
+                this.getPage(1, 5);
             }
         },
         created: function () {

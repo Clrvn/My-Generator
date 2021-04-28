@@ -26,16 +26,11 @@
                             </label>
                             <div class="layui-input-block">
                                 <div class="layui-input-inline layui-show-xs-block">
-
-                                    #if($column.dataType == 'text')
-                                        <textarea class="layui-textarea" id="$column.attrname" name="$column.attrname"
-                                                  lay-verify="required"
-                                                  rows="4"></textarea>
-                                    #end
-                                    #if($column.dataType != 'text')
-                                        <input class="layui-input" id="$column.attrname" name="$column.attrname"
-                                               type="text">
-                                    #end
+    #if($column.dataType == 'longtext') <textarea class="layui-textarea" id="$column.attrname" name="$column.attrname" lay-verify="required" rows="4"></textarea> #end
+    #if($column.dataType == 'text') <textarea class="layui-textarea" id="$column.attrname" name="$column.attrname" lay-verify="required" rows="4"></textarea> #end
+    #if($column.dataType == 'varchar') <input class="layui-input" id="$column.attrname" name="$column.attrname" type="text"> #end
+    #if($column.dataType == 'int') <input class="layui-input" id="$column.attrname" name="$column.attrname" type="number"> #end
+    #if($column.dataType == 'double') <input class="layui-input" id="$column.attrname" name="$column.attrname" type="number" step="0.1"> #end
                                 </div>
                             </div>
                         </div>
